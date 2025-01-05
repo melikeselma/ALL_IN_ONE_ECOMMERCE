@@ -69,3 +69,14 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION stop_premium_membership()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Set the PremiumEndDate to the current timestamp
+    NEW.PremiumEndDate = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;

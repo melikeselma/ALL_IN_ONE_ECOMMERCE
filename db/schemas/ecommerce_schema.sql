@@ -288,12 +288,18 @@ DROP TABLE IF EXISTS CART_ITEM CASCADE;
 CREATE TABLE CART_ITEM (
     CartItemID UUID DEFAULT uuid_generate_v4(),
     CartID UUID REFERENCES CART(CartID) ON DELETE CASCADE,
-    ProductID UUID REFERENCES PRODUCT(ProductID) ON DELETE CASCADE,
+    VariationID UUID NOT NULL,
+    ProductID UUID NOT NULL,
+    OptionValueID UUID NOT NULL,
+    OptionID UUID NOT NULL,
+    FOREIGN KEY (VariationID, ProductID, OptionID, OptionValueID)
+        REFERENCES
+        PRODUCT_VARIATION(VariationID, ProductID, OptionID, OptionValueID),
     UserID UUID REFERENCES CUSTOMER(UserID) ON DELETE CASCADE ,
     DiscountID UUID REFERENCES DISCOUNT(DiscountID) ON DELETE CASCADE,
     Quantity INT CHECK (Quantity > 0),
     FinalPrice FLOAT CHECK (FinalPrice >= 0),
-    PRIMARY KEY (CartItemID, ProductID, UserID)
+    PRIMARY KEY (CartItemID, UserID,VariationID,ProductID,OptionValueID,OptionID)
 );
 
 --APPROVE_ITEM
@@ -301,9 +307,13 @@ DROP TABLE IF EXISTS APPROVE_ITEM CASCADE;
 CREATE TABLE APPROVE_ITEM(
     ApprovedCartID UUID REFERENCES APPROVED_CART(ApprovedCartID),
     CartItemID UUID NOT NULL ,
+    VariationID UUID NOT NULL,
+    OptionValueID UUID NOT NULL,
+    OptionID UUID NOT NULL,
     ProductID UUID NOT NULL,
     UserID UUID NOT NULL,
-    FOREIGN KEY (CartItemID, ProductID, UserID) REFERENCES CART_ITEM(CartItemID, ProductID, UserID)
+    FOREIGN KEY (CartItemID, UserID, VariationID, ProductID, OptionValueID, OptionID)
+        REFERENCES CART_ITEM(CartItemID, UserID, VariationID, ProductID, OptionValueID, OptionID)
 );
 
 -- LIST Table
@@ -429,11 +439,17 @@ CREATE TABLE RETURN_PRODUCT (
     OrderItemID UUID NOT NULL ,
     ApprovedCartID UUID NOT NULL,
     FOREIGN KEY (OrderItemID, ApprovedCartID) REFERENCES ORDER_ITEM(OrderItemID, ApprovedCartID),
-
-    ProductID UUID REFERENCES PRODUCT(ProductID),
+    VariationID UUID NOT NULL,
+    ProductID UUID NOT NULL,
+    OptionValueID UUID NOT NULL,
+    OptionID UUID NOT NULL,
+    FOREIGN KEY (VariationID, ProductID, OptionID, OptionValueID)
+        REFERENCES
+        PRODUCT_VARIATION(VariationID, ProductID, OptionID, OptionValueID),
     ReturnDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ReturnStatus return_status_enum NOT NULL,
-    ReturnReason TEXT NOT NULL
+    ReturnReason TEXT NOT NULL,
+    PRIMARY KEY (OrderItemID, ApprovedCartID,VariationID, ProductID, OptionID, OptionValueID )
 );
 
 -- DISCOUNT Table
@@ -447,7 +463,7 @@ CREATE TABLE DISCOUNT (
     CouponFlag BOOLEAN DEFAULT FALSE,
     PercentageFlag BOOLEAN DEFAULT FALSE,
     FixedAmountFlag BOOLEAN DEFAULT FALSE,
-    PrimeDiscountFlag BOOLEAN DEFAULT FALSE
+    PremiumDiscountFlag BOOLEAN DEFAULT FALSE
 );
 
 -- DISCOUNT_APPLIED_PRODUCT Table
@@ -501,3 +517,4 @@ CREATE TABLE QUESTION (
     QuestionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     AnswerDate TIMESTAMP
 );
+

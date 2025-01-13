@@ -3,6 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/db/functions/add_product_to_cart.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/functions/approve_cart_item.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/db/functions/get_cart_items.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/db/functions/get_user_orders.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/functions/order.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/schemas/ecommerce_schema.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/seeds/add_cart.sql" dialect="PostgreSQL" />
@@ -10,7 +12,6 @@
     <file url="file://$PROJECT_DIR$/db/seeds/address.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/seeds/logistic.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/seeds/product_mteadata.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/db/seeds/search_for_product.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/seeds/shop_add_product.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/seeds/shop_sells_product.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/db/triggers/update_cart_price.sql" dialect="PostgreSQL" />
